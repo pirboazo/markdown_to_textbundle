@@ -17,6 +17,7 @@ Transformer un ou plusieurs fichiers **Markdown** (`.md`) en fichiers **TextBund
 | 🔄 Conversion `.md` → `.textpack`       | Crée un fichier compressé `.textpack` contenant `text.md`, `info.json`, `assets/` |
 | 📸 Inclusion des images                 | Les images locales utilisées dans le Markdown sont copiées dans `assets/`         |
 | 🔍 Prise en charge des chemins          | Supporte les **chemins relatifs** et **absolus** vers les images                  |
+| 📝 Réécriture des chemins d’image       | Les chemins d’image dans le Markdown sont modifiés pour pointer vers `assets/`   |
 | 🎨 Extensions d’images supportées       | `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`, `.avif`, `.jxl`                         |
 | 🗂️ Traitement d’un dossier             | Peut traiter tous les `.md` dans un répertoire donné                              |
 | 📁 Répertoire de sortie personnalisable | Peut enregistrer les `.textpack` dans un dossier spécifique (`--output-dir`)      |
@@ -56,10 +57,4 @@ NomDuFichier.textpack/
 
 ---
 
-## ✨ Compléments possibles (non inclus par défaut)
-
-- Traitement récursif des sous-dossiers
-- Génération optionnelle d’un `.textbundle/` non compressé
-- Support des images HTML (`<img src="...">`)
-- Contrôle de l'écrasement des fichiers `.textpack` existants
 

@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+import os
+import json
+import shutil
+import re
+import argparse
+
+def create_textbundle_with_assets(markdown_path, output_path):
+    bundle_dir = "temp_bundle.textbundle"
+    text_path = os.path.join(bundle_dir, "text.md")
+    info_path = os.path.join(bundle_dir, "info.json")
+    assets_dir = os.path.join(bundle_dir, "assets")
+
+    os.makedirs(assets_dir, exist_ok=True)
+
+    with open(markdown_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Extensions d’image supportées
+    img_extensions = r"(?:png|jpg|jpeg|gif|webp|avif|jxl)"
+    image_paths = re.findall(r'!\[.*?\]\(([^)]+\.' + img_extensions + r')\)', content, re.IGNORECASE)
+
+    for img_path in image_paths:
+        original_path = img_path.strip()
+        filename = os.path.basename(original_path)
+        asset_path = f"assets/{filename}"
+
+        resolved_path = (
+            original_path
+            if os.path.isabs(original_path)
+            else os.path.join(os.path.dirname(markdown_path), original_path)
+        )
+
+        try:
+            shutil.copy(resolved_path, os.path.join(assets_dir, filename))
+            print(f"📸 Copié : {resolved_path}")
+        except Exception as e:
+            print(f"⚠️ Impossible de copier {resolved_path} : {e}")
+
+        content = content.replace(original_path, asset_path)
+
+    with open(text_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+    info_data = {
+        "type": "net.daringfireball.markdown",
+        "version": 2
+    }
+    with open(info_path, "w", encoding="utf-8") as f:
+        json.dump(info_data, f, indent=4)
+
+    shutil.make_archive(output_path, 'zip', bundle_dir)
+    os.rename(output_path + ".zip", output_path + ".textpack")
+    shutil.rmtree(bundle_dir)
+    print(f"✅ Créé : {output_path}.textpack")
+
+def process_markdown_file(input_path, output_dir, output_name=None):
+    if not output_name:
+        output_name = os.path.splitext(os.path.basename(input_path))[0]
+    output_path = os.path.join(output_dir, output_name)
+    create_textbundle_with_assets(input_path, output_path)
+
+def process_directory(input_dir, output_dir):
+    for filename in os.listdir(input_dir):
+        if filename.lower().endswith(".md"):
+            full_input = os.path.join(input_dir, filename)
+            process_markdown_file(full_input, output_dir)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="📦 Convertir un ou plusieurs fichiers Markdown en TextBundle compressé (.textpack), avec les images liées."
+    )
+    parser.add_argument("input", help="Fichier Markdown (.md) ou dossier contenant plusieurs fichiers .md")
+    parser.add_argument(
+        "-o", "--output",
+        help="Nom du fichier de sortie (sans extension). Valide seulement si un seul fichier Markdown est traité.",
+        default=None
+    )
+    parser.add_argument(
+        "--output-dir",
+        help="Dossier de sortie (défaut : dossier courant)",
+        default="."
+    )
+
+    args = parser.parse_args()
+
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
+
+    if os.path.isfile(args.input):
+        process_markdown_file(args.input, args.output_dir, args.output)
+    elif os.path.isdir(args.input):
+        process_directory(args.input, args.output_dir)
+    else:
+        print(f"❌ Chemin invalide : {args.input}")
+
