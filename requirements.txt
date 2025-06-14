@@ -1,0 +1,4 @@
+# requirements.txt
+# Ce script utilise uniquement la bibliothèque standard de Python 3.
+# Aucun package externe n’est requis.
+
