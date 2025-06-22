@@ -25,6 +25,7 @@ markdown_to_textbundle fichier.md --output-dir ./out/
 
 # Tous les fichiers .md d’un dossier
 markdown_to_textbundle ./docs/ --output-dir ./archives/
+```
 
 A Python CLI utility to convert one or more Markdown (.md) files to compressed TextBundle (.textpack), with support for linked images.
 
@@ -51,3 +52,4 @@ markdown_to_textbundle file.md --output-dir ./out/
 
 # All .md files in a folder
 markdown_to_textbundle ./docs/ --output-dir ./archives/
+```
