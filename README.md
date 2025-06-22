@@ -1,4 +1,4 @@
-# markdown_to_textbundle.py
+# markdown_to_textbundle
 
 Un utilitaire CLI Python pour convertir un ou plusieurs fichiers Markdown (.md) en TextBundle compressé (.textpack), avec prise en charge des images liées.
 
@@ -15,14 +15,39 @@ Un utilitaire CLI Python pour convertir un ou plusieurs fichiers Markdown (.md) 
 
 ```bash
 # Fichier unique
-python3 markdown_to_textbundle.py fichier.md
+markdown_to_textbundle fichier.md
 
 # Nom de sortie personnalisé
-python3 markdown_to_textbundle.py fichier.md -o MonExport
+markdown_to_textbundle fichier.md -o MonExport
 
 # Sortie dans un dossier spécifique
-python3 markdown_to_textbundle.py fichier.md --output-dir ./out/
+markdown_to_textbundle fichier.md --output-dir ./out/
 
 # Tous les fichiers .md d’un dossier
-python3 markdown_to_textbundle.py ./docs/ --output-dir ./archives/
+markdown_to_textbundle ./docs/ --output-dir ./archives/
 
+A Python CLI utility to convert one or more Markdown (.md) files to compressed TextBundle (.textpack), with support for linked images.
+
+## 📦 Features
+
+- Conversion `.md` → `.textpack`
+- Automatic inclusion of local images (relative and absolute)
+- Rewrites image paths to `assets/`
+- Supported extensions: `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`, `.avif`, `.jxl`
+- Processes a single file or an entire folder
+- Supports options `--output`, `--output-dir`, `-h`
+
+## 🔧 Usage
+
+```bash
+# Single file
+markdown_to_textbundle file.md
+
+# Custom output name
+markdown_to_textbundle file.md -o MyExport
+
+# Output to a specific folder
+markdown_to_textbundle file.md --output-dir ./out/
+
+# All .md files in a folder
+markdown_to_textbundle ./docs/ --output-dir ./archives/

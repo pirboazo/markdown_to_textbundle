@@ -2,3 +2,5 @@
 # Ce script utilise uniquement la bibliothèque standard de Python 3.
 # Aucun package externe n’est requis.
 
+# This script only uses the standard Python 3 library.
+# No external packages are required.
